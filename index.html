@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">  
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
+
     <style>
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
@@ -89,6 +90,22 @@
         text-align: right;
       }
 
+.radio-toolbar input[type="radio"] {
+  display: none;
+}
+
+#interest_option label {
+  display: inline-block;
+  background-color: #ddd;
+  padding: 4px 11px;
+  font-family: Arial;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.radio-toolbar input[type="radio"]:checked+label {
+  background-color: #bbb;
+}
     </style>
   </head>
 
@@ -98,14 +115,14 @@
        <p class="navbar-text">Search For Places Of Interest And Holiday Destinations</p>
     </header>      
     <section class="container-fluid">
-      <div class="row">
-        <div class="col-xs-6">
+      <div class="row text-center">
+        <div class="col-md-6 col-xs-12">
           <div class="input-group" id="locationField">
             <span class="input-group-addon">Enter a city</span>
             <input id="autocomplete" type="text" size="250"/>
           </div>
         </div>
-        <div class="col-xs-6">
+        <div class="col-md-6 col-xs-12">
           <div class="input-group">
             <span class="input-group-addon">Select Country</span>
             <div  id="controls">
@@ -128,9 +145,55 @@
             </div>
           </div>           
         </div>
-      </div>      
+      </div>
+      <div class="row text-center">  
+        <div class="col-xs-12>
+            <label class="radio-inline">
+              <input type="radio" value="establishment"  name="interest_option" id="interest_option" onchange="changeFunc(this.value);">All
+            </label>        
+            <label class="radio-inline">
+              <input type="radio" value="amusement_park"  name="interest_option" id="interest_option" onchange="changeFunc(this.value);">Amusement parks
+            </label>
+            <label class="radio-inline">
+              <input type="radio" value="aquarium"  name="interest_option" id="interest_option" onchange="changeFunc(this.value);">Aquarium
+            </label>
+            <label class="radio-inline">
+              <input type="radio" value="art_gallery"  name="interest_option" id="interest_option" onchange="changeFunc(this.value);">Art Gallery
+            </label>
+            <label class="radio-inline">
+              <input type="radio" value="casino"  name="interest_option" id="interest_option" onchange="changeFunc(this.value);">Casinos
+            </label>
+            <label class="radio-inline">
+              <input type="radio" value="lodging"  name="interest_option" id="interest_option" onchange="changeFunc(this.value);">Hotels
+            </label>
+            <label class="radio-inline">
+              <input type="radio" value="restaurant"  name="interest_option" id="interest_option" onchange="changeFunc(this.value);">Bars & Restaurants
+            </label>            
+        </div>
+        <div class="col-xs-12>
+            <label class="radio-inline">
+              <input type="radio" value="museum"  name="interest_option" id="interest_option" onchange="changeFunc(this.value);">Museums
+            </label>
+            <label class="radio-inline">
+              <input type="radio" value="zoo"  name="interest_option" id="interest_option" onchange="changeFunc(this.value);">Zoos & Animal Parks
+            </label>
+            <label class="radio-inline">
+              <input type="radio" value="library"  name="interest_option" id="interest_option" onchange="changeFunc(this.value);">Libraries
+            </label>
+            <label class="radio-inline">
+              <input type="radio" value="church"  name="interest_option" id="interest_option" onchange="changeFunc(this.value);">Churches & Cathedrals
+            </label>
+            <label class="radio-inline">
+              <input type="radio" value="city_hall"  name="interest_option" id="interest_option" onchange="changeFunc(this.value);">City Halls
+            </label>
+            <label class="radio-inline">
+              <input type="radio" value="night_club"  name="interest_option" id="interest_option" onchange="changeFunc(this.value);">Night Clubs
+            </label>   
+         <p id="demo"></p>
+        </div>     
+      </div>
+     
     </section>
-
     <div id="map"></div>
 
     <div id="listing">
@@ -237,7 +300,13 @@
           zoom: 5
         }
       };
-
+     //types:  ['restaurant'] 
+      var atest = "establishment";//default, all establishments are returned.
+       function changeFunc(e){//this is used to refresh the page and feed it the option selected
+          atest = e;
+          search();
+       }  
+       
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           zoom: countries['us'].zoom,
@@ -281,12 +350,13 @@
           document.getElementById('autocomplete').placeholder = 'Enter a city';
         }
       }
-//'lodging'
+
       // Search for businesses in the selected city, within the viewport of the map.
+
       function search() {
         var search = {
           bounds: map.getBounds(),
-          types:  ['establishment'] 
+          types:  [atest] 
         };
 
         places.nearbySearch(search, function(results, status) {

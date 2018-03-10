@@ -5,225 +5,63 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">  
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-
-    <style>
-      /* map setting */
-      #map {
-        height: 100%;
-        width: 100%;
-      }
-      /* page fill the window. */
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-      table {
-        font-size: 12px;
-      }
-
-      #listing {
-        position: absolute;
-        width: 250px;
-        height: 470px;
-        overflow: auto;
-        left: 2px;
-        top: 121px;
-        cursor: pointer;
-        overflow-x: hidden;
-      }
-      #findplaces {
-        position: absolute;
-        text-align: right;
-        width: 100px;
-        font-size: 14px;
-        padding: 4px;
-        margin: 4px;
-        left: 420px;
-        background-color: #fff;
-      }
-      #locationField {
-        float:right;
-        width: 100%;
-        height: 25px;
-        background-color: #fff;
-      }
-      #controls {
-        width: 100%;
-        height: 25px;
-        background-color: #fff;
-      }
-      #autocomplete {
-        width: 100%;
-        line-height:35px;
-        border: 2px solid #ccc;
-        -webkit-transition: 0.5s;
-        transition: 0.5s;
-        outline: none;        
-      }
-      #autocomplete:focus {
-        border: 3px solid #555;
-      }      
-      #country {
-        width: 100%;
-        height:41px;
-        border: 2px solid #ccc;
-        -webkit-transition: 0.5s;
-        transition: 0.5s;
-        outline: none;                
-      }
-      #country:focus {
-        border: 3px solid #555;
-      }      
-      .placeIcon {
-        width: 20px;
-        height: 34px;
-        margin: 4px;
-      }
-      .placeIcon {
-        width: 24px;
-        height: 24px;
-      }
-      #resultsTable {
-        border-collapse: collapse;
-        width: 240px;
-      }
-      #rating {
-        font-size: 13px;
-        font-family: Arial Unicode MS;
-      }
-      .iw_table_row {
-        height: 18px;
-      }
-      .iw_attribute_name {
-        font-weight: bold;
-        text-align: right;
-      }
-      .iw_table_icon {
-        text-align: right;
-      }
-      .pad-div{
-        padding: 5px 15px 0px 15px;
-        text-align: center;
-      }
-      
-      .dropbtn {
-          background-color: #4CAF50;
-          color: white;
-          padding: 8px;
-          font-size: 16px;
-          border: none;
-          border-radius:4px;
-          min-width: 180px;
-      }
-      
-      .dropdown {
-          position: relative;
-          display: inline-block;
-      }
-      
-      .dropdown-content {
-          display: none;
-          position: absolute;
-          background-color: #f1f1f1;
-          min-width: 180px;
-          box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-          z-index: 1;
-      }
-      
-      .dropdown-content a {
-          color: black;
-          padding: 4px 8px;
-          text-decoration: none;
-          display: block;
-          border-bottom: 1px solid #fff;
-      }
-      
-      .dropdown-content a:hover {background-color: #ddd}
-      
-      .dropdown:hover .dropdown-content {
-          display: block;
-      }
-      
-      .dropdown:hover .dropbtn {
-          background-color: #3e8e41;
-      }
-
-      @media only screen and (max-width: 768px) {/*this is used to remove the listing table since it covers the screen on smaller views*/
-          #listing {
-              display: none;
-          }
-      }
-    </style>
+    <link rel="stylesheet" href="style.css" type="text/css" />
   </head>
-
   <body>
-    
-    <header class="navbar navbar-inverse">
-       <p class="navbar-text pad-div">Search For Places Of Interest And Holiday Destinations</p>
-    </header>  
-    <section class="container-fluid">
-      <div class="row  text-center">
-        <div class="col-md-4 col-xs-12 text-center pad-div">
-          <div class="input-group">
-            <span class="input-group-addon" style="height: 41px;">Select Country</span>
-            <div  id="controls">
-           
-              <select id="country">
-                <option value="all">All</option>
-                <option value="au">Australia</option>
-                <option value="br">Brazil</option>
-                <option value="ca">Canada</option>
-                <option value="fr">France</option>
-                <option value="de">Germany</option>
-                <option value="mx">Mexico</option>
-                <option value="nz">New Zealand</option>
-                <option value="it">Italy</option>
-                <option value="za">South Africa</option>
-                <option value="es">Spain</option>
-                <option value="pt">Portugal</option>
-                <option value="us" selected>U.S.A.</option>
-                <option value="uk">United Kingdom</option>
-              </select>          
-            </div>
-          </div>           
-        </div>
-        <div class="col-md-4 col-xs-12 text-center pad-div">
+    <header class="header-div">     
+       <div class="row  text-center">      
+       <div class="col-md-4 col-xs-12 text-center pad-div">
+           <div class="foo">
+              <span class="letter" data-letter="T">T</span>
+              <span class="letter" data-letter="r">r</span>
+              <span class="letter" data-letter="a">a</span>
+              <span class="letter" data-letter="v">v</span>
+              <span class="letter" data-letter="e">e</span>
+              <span class="letter" data-letter="l">l</span>                 
+
+              <span class="letter" data-letter=" "> </span>
+              <span class="letter" data-letter="S">S</span>
+              <span class="letter" data-letter="e">e</span>
+              <span class="letter" data-letter="a">a</span>
+              <span class="letter" data-letter="r">r</span>
+              <span class="letter" data-letter="c">c</span>
+              <span class="letter" data-letter="h">h</span>                      
+           </div>
+       </div> 
+       <div class="col-md-4 col-xs-12 text-right pad-div">
           <div class="input-group" id="locationField">
-            <span class="input-group-addon">Enter a city</span>
+            <span class="input-group-addon bg-c">Enter a city</span>
             <input id="autocomplete" type="text"/>
           </div>
-        </div>        
-        <div class="col-md-4 col-xs-12 text-center pad-div">
+       </div>        
+       <div class="col-md-4 col-xs-12 text-left pad-div">
           <div class="dropdown">
             <button class="dropbtn">Select Attraction Type</button>
             <div class="dropdown-content">
-              <a href="#" onClick="changeFunc(this.id);" id="establishment">All</a>
               <a href="#" onClick="changeFunc(this.id);" id="amusement_park">Amusement parks</a>
               <a href="#" onClick="changeFunc(this.id);" id="aquarium">Aquarium</a>
               <a href="#" onClick="changeFunc(this.id);" id="art_gallery">Art Gallery</a>   
-              <a href="#" onClick="changeFunc(this.id);" id="casino">Casinos</a>
-              <a href="#" onClick="changeFunc(this.id);" id="lodging">Hotels</a>
-              <a href="#" onClick="changeFunc(this.id);" id="restaurant">Bars and Restaurants</a>
-              <a href="#" onClick="changeFunc(this.id);" id="museum">Museumss</a>     
+              <a href="#" onClick="changeFunc(this.id);" id="museum">Museums</a>     
               <a href="#" onClick="changeFunc(this.id);" id="zoo">Zoos and Animal Parks</a>
-              <a href="#" onClick="changeFunc(this.id);" id="library">Libraries</a>
-              <a href="#" onClick="changeFunc(this.id);" id="church">Churches and Cathedrals</a>
-              <a href="#" onClick="changeFunc(this.id);" id="city_hall">City Halls</a>
-              <a href="#" onClick="changeFunc(this.id);" id="night_club">Night Clubs</a> 
+              <a href="#" onClick="changeFunc(this.id);" id="lodging">Hotels</a>
+              <a href="#" onClick="changeFunc(this.id);" id="restaurant">Bars/Restaurants</a>
             </div>
           </div>  
         </div>
       </div>
-    </section>
-
-    <div id="map"></div>
-
-    <div id="listing">
-      <table id="resultsTable">
-        <tbody id="results"></tbody>
-      </table>
-    </div>
+    </header>     
+  	<div class="dropdown4">
+  	  <button id="btn-view-results">Click To View Results</button>
+  	  <div class="dropdown-content4">
+  		<div id="listing">
+  		  <table id="resultsTable">
+  			<tbody id="results"></tbody>
+  		  </table>
+  		</div>
+  	  </div>
+  	</div> 
+  	
+  	<div id="map"></div>
 
     <div style="display: none">
       <div id="info-content">
@@ -252,297 +90,12 @@
       </div>
     </div>
 
-    <script>
-      // This example uses the autocomplete feature of the Google Places API.
-      // It allows the user to find places of interest in a given place, within a given
-      // country. It then displays markers for all the places returned,
-      // with on-click details for each place.
-
-
-      var map, places, infoWindow;
-      var markers = [];
-      var autocomplete;
-      var countryRestrict = {'country': 'us'};
-      var MARKER_PATH = 'https://developers.google.com/maps/documentation/javascript/images/marker_green';
-      var hostnameRegexp = new RegExp('^https?://.+?/');
-
-      var countries = {
-        'au': {
-          center: {lat: -25.3, lng: 133.8},
-          zoom: 4
-        },
-        'br': {
-          center: {lat: -14.2, lng: -51.9},
-          zoom: 3
-        },
-        'ca': {
-          center: {lat: 62, lng: -110.0},
-          zoom: 3
-        },
-        'fr': {
-          center: {lat: 46.2, lng: 2.2},
-          zoom: 5
-        },
-        'de': {
-          center: {lat: 51.2, lng: 10.4},
-          zoom: 5
-        },
-        'mx': {
-          center: {lat: 23.6, lng: -102.5},
-          zoom: 4
-        },
-        'nz': {
-          center: {lat: -40.9, lng: 174.9},
-          zoom: 5
-        },
-        'it': {
-          center: {lat: 41.9, lng: 12.6},
-          zoom: 5
-        },
-        'za': {
-          center: {lat: -30.6, lng: 22.9},
-          zoom: 5
-        },
-        'es': {
-          center: {lat: 40.5, lng: -3.7},
-          zoom: 5
-        },
-        'pt': {
-          center: {lat: 39.4, lng: -8.2},
-          zoom: 6
-        },
-        'us': {
-          center: {lat: 37.1, lng: -95.7},
-          zoom: 3
-        },
-        'uk': {
-          center: {lat: 54.8, lng: -4.6},
-          zoom: 5
-        }
-      };
-     var atest = "establishment";//default, all establishments within a given place are returned.
-       function changeFunc(e){//this function is used to to refine with search when any refine type is clicked
-          atest = e;
-          search();
-          
-       }  
-       
-      function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          zoom: countries['us'].zoom,
-          center: countries['us'].center,
-          mapTypeControl: false,
-          panControl: false,
-          zoomControl: false,
-          streetViewControl: true
-        });
-
-        infoWindow = new google.maps.InfoWindow({
-          content: document.getElementById('info-content')
-        });
-
-        // Create the autocomplete object and associate it with the UI input control.
-        // Restrict the search to the default country, and to place type "cities".
-        autocomplete = new google.maps.places.Autocomplete(
-            /** @type {!HTMLInputElement} */ (
-                document.getElementById('autocomplete')), {
-              types: ['(cities)'],
-              componentRestrictions: countryRestrict
-            });
-        places = new google.maps.places.PlacesService(map);
-
-        autocomplete.addListener('place_changed', onPlaceChanged);
-
-        // Add a DOM event listener to react when the user selects a country.
-        document.getElementById('country').addEventListener(
-            'change', setAutocompleteCountry);
-      }
-
-      // When the user selects a city, get the place details for the city and
-      // zoom the map in on the city.
-      function onPlaceChanged() {
-        var place = autocomplete.getPlace();
-        if (place.geometry) {
-          map.panTo(place.geometry.location);
-          map.setZoom(15);
-          search();
-        } else {
-          document.getElementById('autocomplete').placeholder = 'Enter a city';
-        }
-      }
-
-      // Search for businesses in the selected city, within the viewport of the map.
-
-      function search() {
-        var search = {
-          bounds: map.getBounds(),
-          types:  [atest] 
-        };
-
-        places.nearbySearch(search, function(results, status) {
-          if (status === google.maps.places.PlacesServiceStatus.OK) {
-            clearResults();
-            clearMarkers();
-            // Create a marker for each place found, and
-            // assign a letter of the alphabetic to each marker icon.
-            for (var i = 0; i < results.length; i++) {
-              var markerLetter = String.fromCharCode('A'.charCodeAt(0) + (i % 26));
-              var markerIcon = MARKER_PATH + markerLetter + '.png';
-              // Use marker animation to drop the icons incrementally on the map.
-              markers[i] = new google.maps.Marker({
-                position: results[i].geometry.location,
-                animation: google.maps.Animation.DROP,
-                icon: markerIcon
-              });
-              // If the user clicks a place marker, show the details of that place
-              // in an info window.
-              markers[i].placeResult = results[i];
-              google.maps.event.addListener(markers[i], 'click', showInfoWindow);
-              setTimeout(dropMarker(i), i * 100);
-              addResult(results[i], i);
-            }
-          }
-        });
-      }
-
-      function clearMarkers() {
-        for (var i = 0; i < markers.length; i++) {
-          if (markers[i]) {
-            markers[i].setMap(null);
-          }
-        }
-        markers = [];
-      }
-
-      // Set the country restriction based on user input.
-      // Also center and zoom the map on the given country.
-      function setAutocompleteCountry() {
-        var country = document.getElementById('country').value;
-        if (country == 'all') {
-          autocomplete.setComponentRestrictions({'country': []});
-          map.setCenter({lat: 15, lng: 0});
-          map.setZoom(2);
-        } else {
-          autocomplete.setComponentRestrictions({'country': country});
-          map.setCenter(countries[country].center);
-          map.setZoom(countries[country].zoom);
-        }
-        clearResults();
-        clearMarkers();
-        document.getElementById('autocomplete').value = "";// set the textbox free for new typing
-      }
-
-      function dropMarker(i) {
-        return function() {
-          markers[i].setMap(map);
-        };
-      }
-
-      function addResult(result, i) {
-        var results = document.getElementById('results');
-        var markerLetter = String.fromCharCode('A'.charCodeAt(0) + (i % 26));
-        var markerIcon = MARKER_PATH + markerLetter + '.png';
-
-        var tr = document.createElement('tr');
-        tr.style.backgroundColor = (i % 2 === 0 ? '#F0F0F0' : '#FFFFFF');
-        tr.onclick = function() {
-          google.maps.event.trigger(markers[i], 'click');
-        };
-
-        var iconTd = document.createElement('td');
-        var nameTd = document.createElement('td');
-        var icon = document.createElement('img');
-        icon.src = markerIcon;
-        icon.setAttribute('class', 'placeIcon');
-        icon.setAttribute('className', 'placeIcon');
-        var name = document.createTextNode(result.name);
-        iconTd.appendChild(icon);
-        nameTd.appendChild(name);
-        tr.appendChild(iconTd);
-        tr.appendChild(nameTd);
-        results.appendChild(tr);
-      }
-
-      function clearResults() {
-        var results = document.getElementById('results');
-        while (results.childNodes[0]) {
-          results.removeChild(results.childNodes[0]);
-        }
-      }
-
-      // Get the place details for a place. Show the information in an info window,
-      // anchored on the marker for the place that the user selected.
-      function showInfoWindow() {
-        var marker = this;
-        places.getDetails({placeId: marker.placeResult.place_id},
-            function(place, status) {
-              if (status !== google.maps.places.PlacesServiceStatus.OK) {
-                return;
-              }
-              infoWindow.open(map, marker);
-              buildIWContent(place);
-            });
-      }
-
-      // Load the place information into the HTML elements used by the info window.
-      function buildIWContent(place) {
-        document.getElementById('iw-icon').innerHTML = '<img class="placeIcon" ' +
-            'src="' + place.icon + '"/>';
-        document.getElementById('iw-url').innerHTML = '<b><a href="' + place.url +
-            '">' + place.name + '</a></b>';
-        document.getElementById('iw-address').textContent = place.vicinity;
-
-        if (place.formatted_phone_number) {
-          document.getElementById('iw-phone-row').style.display = '';
-          document.getElementById('iw-phone').textContent =
-              place.formatted_phone_number;
-        } else {
-          document.getElementById('iw-phone-row').style.display = 'none';
-        }
-
-        // Assign a five-star rating to  hotels, using a black star ('&#10029;')
-        // to indicate the rating the hotel has earned, and a white star ('&#10025;')
-        // for the rating points not achieved.
-        if (place.rating) {
-          var ratingHtml = '';
-          for (var i = 0; i < 5; i++) {
-            if (place.rating < (i + 0.5)) {
-              ratingHtml += '&#10025;';
-            } else {
-              ratingHtml += '&#10029;';
-            }
-          document.getElementById('iw-rating-row').style.display = '';
-          document.getElementById('iw-rating').innerHTML = ratingHtml;
-          }
-        } else {
-          document.getElementById('iw-rating-row').style.display = 'none';
-        }
-
-        // The regexp isolates the first part of the URL (domain plus subdomain)
-        // to give a short URL for displaying in the info window.
-        if (place.website) {
-          var fullUrl = place.website;
-          var website = hostnameRegexp.exec(place.website);
-          if (website === null) {
-            website = 'http://' + place.website + '/';
-            fullUrl = website;
-          }
-          document.getElementById('iw-website-row').style.display = '';
-          document.getElementById('iw-website').textContent = website;
-        } else {
-          document.getElementById('iw-website-row').style.display = 'none';
-        }
-      }
-
-
-      
-    </script>
-    
+    <script src="script.js"></script>    
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCtNPEnfY613Pi8QOuxzDPHxFAYR7wbo20&libraries=places&callback=initMap"
         async defer></script>
 
-    <footer class="container-fluid">
-      copyright @2018
+    <footer class="footer-div text-center">
+      Travel Search - ©  2018
     </footer>         
   </body>
 </html>

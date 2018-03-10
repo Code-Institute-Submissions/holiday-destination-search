@@ -1,26 +1,39 @@
 ## Search For Your Next Holiday Destination,etc.
 
 ### Description:
-This is a one-page site that will enable users to search for their next holiday destination, tourist attraction, accommodation, bars, and restaurants.
+This is a one-page site that will enable users to search for their next holiday destinations, tourist attraction, accommodation, bars, and restaurants.
+
+### Name:
+Travel Search:
+The name is styled to respond to a hover effect and display a green shadow.
 
 ### How It Is Used:
-When a user visits the site, s/he is presented with a textboxes centrally located in the middle of the page, that will enable the user search for a place of interest. Initially without google maps being displayed.
-The textboxes has an auto-complete feature to help the user with quicker and easier search.
+When a user visits the site, the user is presented with an autocomplete input text field and a map. The map is centrally zoomed to lat: 47.45 and  lng: -30.27 which is somewhere at the North atlantic ocean. This way, the user is not presented any particular country.
 
-On clicking a suggested place,  google maps load, occupying the whole page with the textboxes now moved up.
+When the user types into the textfield, the autocomplete feature automatically loads suggestions cities/countries for the user to choose. 
 
-The google maps load with a list of destinations sorted by popularity, while the main map area to the right displaying some of the areas shown with a market or icon.
-
-Users can click on any of the places on the list, and shown on the map. The user can control-click or use the mouse middle wheel to zoom in or out.
+On clicking a place,  google maps loads. With places of interest within the selected city/country loaded on a table which now appears on the left margin of the map for the user to find a particular interest. Also while the table populates with places of interests, markers are also dropping on the map. And on clicking any of the listed places, an info window opens presenting details about the clicked place..
+There is also a drop-down menu to enable the user refine his/her search results into Amusement parks, Aquarium, Art Gallery, Museums, Zoos, Hotels, Restaurants.
+It is important to note that the map always load with tiny icons of restaurants, hotels, hospitals, libraries, etc., within the map viewable area. These are clickable icons too that when clicked with display an info Window with more information about the clicked place.
 
 ### Users will be able:
-1. Select a destination city
-2. Find tourist attractions
+1. Search for a destination city
+2. Find tourist attractions within the search city/country
 3. Find accommodation
 4. Find bars and restaurants
 
 ### Technologies used
-The site was developed using html 5, CSS 3, Bootstrap, Javascript, jQuery, Ajax, Json, Cloud9, and Google Maps Api, Google Places Api.
+The site was developed using html / html 5, CSS / CSS 3, Bootstrap, Javascript, jQuery, Cloud9, and Google Maps Api, Google Places Api, git/github.
+
+#### Limitations
+There are presently lots of limitations. I have read lots of api pages but could not find solutions on how to drop the markers in different colours for different categories. For instance a green marker can be for Amusement parks, blue for museums, yellow for restaurants, etc. And even how to use numbers to label the markers instead of the aphabets.
+Another limitation is the search results found for places and displayed on the results table at the left margin of the map are not more than 26 listed places at a time.
+Also, I was not able to search for each categories separately and aggregate their results. Example, get the result for hotels and then from museums and display those only.
+Also, since icons of places such as restaurants, bars, hospitals, etc., are preloaded on the map when it displays, it is not possible to highlight or modify those icons. I do not have control over these icons.
+
+#### Support:
+There is much room to develop this page further. And you are welcome to contribute to solve some of the mentioned limitations above. These may be limitations perculiar only to this page, as I have seen a much more advanced use of the map api here https://www.tripadvisor.ie/Attractions-g186600-Activities-Cork_County_Cork.html#MAPVIEW
+which shows that the limitations presented above on the page are solvable.
 
 #### Source:
 1. https://developers.google.com/maps/documentation/javascript/places-autocomplete#map_controls

@@ -8,12 +8,34 @@ var autocomplete;
 var countryRestrict = {'country': 'us'};
 var MARKER_PATH = 'https://developers.google.com/maps/documentation/javascript/images/marker_green';
 var hostnameRegexp = new RegExp('^https?://.+?/');
+var all_places_img = "places_icons/places.png";
+var restuarant_img = "places_icons/restaurant.png";
+var hotel_img = "places_icons/hotels.png";
+var image = all_places_img;
 
 
-var atest = "establishment";//default, all establishments within a given place are returned.
-function changeFunc(e){//this function is used to to refine with search when any refine type is clicked
-   atest = e;//e;
-   search();
+//This function is to refine the search based on which radio is clicked.
+function multiple_search(e){
+  
+    if(e != ""){
+        clearResults();
+        clearMarkers();   
+        search(e);         
+    }else{
+        document.getElementById('autocomplete').placeholder =  "Please enter a city";   
+    }
+}
+
+//this function is used to add restaurants or hotels as the user may chose
+function changeFunc(e){
+
+   if(e == "restaurant"){
+      image = restuarant_img ; 
+   }else if(e == "lodging"){
+      image = hotel_img ;   
+   }
+//   onPlaceChanged();
+   search(e);
 }  
 //get the coordinates for middle of the atlantic as the zoom position to use for initial zoom
 var countries = {
@@ -60,34 +82,43 @@ function onPlaceChanged() {
    var place = autocomplete.getPlace();
    if (place.geometry) {
    	 map.panTo(place.geometry.location);
-     map.setZoom(15);
-     search();
+     map.setZoom(14);
+    // search();
+    clearResults();
+    clearMarkers();    
+    search("natural_feature") ;
+    document.getElementById("nature").checked = true;
+    document.title = "Places Of Interest In " +  document.getElementById('autocomplete').value;
    } else {
       document.getElementById('autocomplete').placeholder = 'Enter a city';
    }
 }
 // Search for businesses in the selected city, within the viewport of the map.
-function search() {
+function search(initial_value = "natural_feature") {
    var search = {
      bounds: map.getBounds(),
-     types:  [atest] 
+     types:  [initial_value] 
    };
 	  
    places.nearbySearch(search, function(results, status) {
    	 if (status === google.maps.places.PlacesServiceStatus.OK) {
-         clearResults();
-         clearMarkers();
+     //    clearResults();
+    //    clearMarkers();
          // Create a marker for each place found, and
          // assign a letter of the alphabetic to each marker icon.
          // var markerLetter = String.fromCharCode('A'.charCodeAt(0) + (i % 26));
+         
+        // var image = "places_icons/places.png";
+  
          for (var i = 0; i < results.length; i++) {
             var markerLetter = String.fromCharCode('A'.charCodeAt(0) + (i % 26));
             var markerIcon = MARKER_PATH + markerLetter + '.png';
+            
             // Use marker animation to drop the icons incrementally on the map.
             markers[i] = new google.maps.Marker({
               position: results[i].geometry.location,
               animation: google.maps.Animation.DROP,
-              icon: markerIcon
+              icon: image //markerIcon
             });
            // If the user clicks a place marker, show the details of that place
            // in an info window.
@@ -108,6 +139,7 @@ function clearMarkers() {
    }
    markers = [];
 }
+
 
 // Set the country restriction based on user input.
 // Also center and zoom the map on the given country.
@@ -134,6 +166,7 @@ function dropMarker(i) {
 }
 
 function addResult(result, i) {
+
   var results = document.getElementById('results');
   var markerLetter = String.fromCharCode('A'.charCodeAt(0) + (i % 26));
   var markerIcon = MARKER_PATH + markerLetter + '.png';
@@ -227,4 +260,12 @@ function buildIWContent(place) {
      } else {
        document.getElementById('iw-website-row').style.display = 'none';
      }
+     
+    //show photo if available
+  if (place.photos) {
+     var photoUrl = place.photos[0].getUrl({maxWidth: 116, maxHeight: 116}); 
+      document.getElementById('iw-photo-spot').src = photoUrl;
+   } else {
+     document.getElementById('iw-photo-row').style.display = 'none';
+   }
 }

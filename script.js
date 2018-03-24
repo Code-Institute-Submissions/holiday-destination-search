@@ -1,12 +1,14 @@
+
 // This example uses the autocomplete feature of the Google Places API.
 // It allows the user to find places of interest in a given place, within a given
 // city or region. It then displays markers for all the places of interests returned,
-
+// A user can decide to also display hotels and restaurants by clicking the relevant buttons. (checkboxes.)
 var map, places, infoWindow;
 var markers = [];
+var hotels_markers = [];
+var restaurants_markers = [];
 var autocomplete;
 var countryRestrict = {'country': 'us'};
-var MARKER_PATH = 'https://developers.google.com/maps/documentation/javascript/images/marker_green';
 var hostnameRegexp = new RegExp('^https?://.+?/');
 var all_places_img = "places_icons/places.png";
 var restuarant_img = "places_icons/restaurant.png";
@@ -14,29 +16,93 @@ var hotel_img = "places_icons/hotels.png";
 var image = all_places_img;
 
 
+
 //This function is to refine the search based on which radio is clicked.
 function multiple_search(e){
-  
+    var places_names = "Natural Places Of Interest";
+    clearResults();
+    clearMarkers();     
     if(e != ""){
-        clearResults();
-        clearMarkers();   
-        search(e);         
+        search(e);  
+        image = all_places_img;
+        if(document.getElementById('autocomplete').value != ""){
+            if(e == "museum"){
+               places_names = "Museums"; 
+            }else if(e == "zoo"){
+                places_names = "Zoos"; 
+            }
+            document.getElementById('titleTagline').innerHTML =   "Some " + places_names + " In " +  document.getElementById('autocomplete').value;
+        }    
     }else{
-        document.getElementById('autocomplete').placeholder =  "Please enter a city";   
+        document.getElementById('autocomplete').placeholder =  "Please enter a city to begin";   
     }
 }
 
-//this function is used to add restaurants or hotels as the user may chose
-function changeFunc(e){
+//this function is used to add or remove hotels markers
+function addRemoveHotels(e){
+   clearHotelMarkers();  
+   document.getElementById("hotel_span").className = "restaurantHotels restaurantHotels-default";
+   if(document.getElementById("include_hotels").checked){
+       document.getElementById("hotel_span").className = "restaurantHotels restaurantHotels-success";
+       var search = {
+         bounds: map.getBounds(),
+         types:  ["lodging"] 
+       };
+    	  
+       places.nearbySearch(search, function(results, status) {
+       	 if (status === google.maps.places.PlacesServiceStatus.OK) {
+    
+             for (var i = 0; i < results.length; i++) {
+                // Use marker animation to drop the icons incrementally on the map.
+                hotels_markers[i] = new google.maps.Marker({
+                  position: results[i].geometry.location,
+                  animation: google.maps.Animation.DROP,
+                  icon: hotel_img //markerIcon
+                });
+               // If the user clicks a place marker, show the details of that place
+               // in an info window.
+               hotels_markers[i].placeResult = results[i];
+               google.maps.event.addListener(hotels_markers[i], 'click', showInfoWindow);
+               setTimeout(dropHotelMarker(i), i * 100);
 
-   if(e == "restaurant"){
-      image = restuarant_img ; 
-   }else if(e == "lodging"){
-      image = hotel_img ;   
+             }
+           }
+        });  
    }
-//   onPlaceChanged();
-   search(e);
 }  
+
+//this function is used to add or  remove restaurants markers
+function addRemoveRestaurants(e){
+   clearRestaurantMarkers();  
+   document.getElementById("restaurant_span").className = "restaurantHotels restaurantHotels-default";
+   if(document.getElementById("include_restaurants").checked){
+       document.getElementById("restaurant_span").className = "restaurantHotels restaurantHotels-success";
+       var search = {
+         bounds: map.getBounds(),
+         types:  ["restaurant"] 
+       };
+    	  
+       places.nearbySearch(search, function(results, status) {
+       	 if (status === google.maps.places.PlacesServiceStatus.OK) {
+    
+             for (var i = 0; i < results.length; i++) {
+                // Use marker animation to drop the icons incrementally on the map.
+                restaurants_markers[i] = new google.maps.Marker({
+                  position: results[i].geometry.location,
+                  animation: google.maps.Animation.DROP,
+                  icon: restuarant_img //markerIcon
+                });
+               // If the user clicks a place marker, show the details of that place
+               // in an info window.
+               restaurants_markers[i].placeResult = results[i];
+               google.maps.event.addListener(restaurants_markers[i], 'click', showInfoWindow);
+               setTimeout(dropRestaurantMarker(i), i * 100);
+
+             }
+           }
+        });  
+   }   
+} 
 //get the coordinates for middle of the atlantic as the zoom position to use for initial zoom
 var countries = {
   'atl': {
@@ -79,6 +145,11 @@ function initMap() {
 // When the user selects a city, get the place details for the city and
 // zoom the map in on the city.
 function onPlaceChanged() {
+    // Reset the hotel and restaurant checkboxes
+    document.getElementById("hotel_span").className = "restaurantHotels restaurantHotels-default";
+    document.getElementById("restaurant_span").className = "restaurantHotels restaurantHotels-default";
+    document.getElementById("include_hotels").checked = false;
+    document.getElementById("include_restaurants").checked = false;    
    var place = autocomplete.getPlace();
    if (place.geometry) {
    	 map.panTo(place.geometry.location);
@@ -87,10 +158,12 @@ function onPlaceChanged() {
     clearResults();
     clearMarkers();    
     search("natural_feature") ;
+    document.getElementById('titleTagline').innerHTML =   "Some Natural Places Of Interest In " +  document.getElementById('autocomplete').value;
     document.getElementById("nature").checked = true;
     document.title = "Places Of Interest In " +  document.getElementById('autocomplete').value;
+
    } else {
-      document.getElementById('autocomplete').placeholder = 'Enter a city';
+      document.getElementById('autocomplete').placeholder = 'Enter a city to begin';
    }
 }
 // Search for businesses in the selected city, within the viewport of the map.
@@ -102,18 +175,9 @@ function search(initial_value = "natural_feature") {
 	  
    places.nearbySearch(search, function(results, status) {
    	 if (status === google.maps.places.PlacesServiceStatus.OK) {
-     //    clearResults();
-    //    clearMarkers();
-         // Create a marker for each place found, and
-         // assign a letter of the alphabetic to each marker icon.
-         // var markerLetter = String.fromCharCode('A'.charCodeAt(0) + (i % 26));
-         
-        // var image = "places_icons/places.png";
-  
+        clearResults();//clear the result so that new results are generated all the time
+        clearMarkers();//clear the markers to ensure only new markers are added 
          for (var i = 0; i < results.length; i++) {
-            var markerLetter = String.fromCharCode('A'.charCodeAt(0) + (i % 26));
-            var markerIcon = MARKER_PATH + markerLetter + '.png';
-            
             // Use marker animation to drop the icons incrementally on the map.
             markers[i] = new google.maps.Marker({
               position: results[i].geometry.location,
@@ -130,7 +194,7 @@ function search(initial_value = "natural_feature") {
        }
     });
 }
-
+//this function clears the markers when normal search is made.
 function clearMarkers() {
    for (var i = 0; i < markers.length; i++) {
       if (markers[i]) {
@@ -139,8 +203,24 @@ function clearMarkers() {
    }
    markers = [];
 }
-
-
+//this function clears the hotel markers specifically when there are any dropped on the map.
+function clearHotelMarkers() {
+   for (var i = 0; i < hotels_markers.length; i++) {
+      if (hotels_markers[i]) {
+         hotels_markers[i].setMap(null);
+       }
+   }
+   hotels_markers = [];
+}
+//this function clears the restaurant markers specifically when there are any dropped on the map.
+function clearRestaurantMarkers() {
+   for (var i = 0; i < restaurants_markers.length; i++) {
+      if (restaurants_markers[i]) {
+         restaurants_markers[i].setMap(null);
+       }
+   }
+   restaurants_markers = [];
+}
 // Set the country restriction based on user input.
 // Also center and zoom the map on the given country.
 function setAutocompleteCountry() {
@@ -159,17 +239,35 @@ function setAutocompleteCountry() {
      document.getElementById('autocomplete').value = "";// set the textbox free for new typing
 }
 
+//this function drops in marker when normal search is complete
 function dropMarker(i) {
    return function() {
       markers[i].setMap(map);
    };
 }
-
+//this function drops in hotels markers
+function dropHotelMarker(i) {
+   return function() {
+      hotels_markers[i].setMap(map);
+   };
+}
+//this function drops in restaurants markers
+function dropRestaurantMarker(i) {
+   return function() {
+      restaurants_markers[i].setMap(map);
+   };
+}
+//this function adds results when search is complete
 function addResult(result, i) {
-
+  var img;
+    //show photo if available
+  if (result.photos) {
+     var img = result.photos[0].getUrl({maxWidth: 45, maxHeight: 45}); 
+   } else {
+      img = "places_icons/no_img_small.png"; 
+   }
+   
   var results = document.getElementById('results');
-  var markerLetter = String.fromCharCode('A'.charCodeAt(0) + (i % 26));
-  var markerIcon = MARKER_PATH + markerLetter + '.png';
 
   var tr = document.createElement('tr');
   tr.style.backgroundColor = (i % 2 === 0 ? '#F2F9F0' : '#FFFFFF');
@@ -180,7 +278,7 @@ function addResult(result, i) {
   var iconTd = document.createElement('td');
   var nameTd = document.createElement('td');
   var icon = document.createElement('img');
-  icon.src = markerIcon;
+  icon.src = img;// markerIcon;
   icon.setAttribute('class', 'placeIcon');
   icon.setAttribute('className', 'placeIcon');
   var name = document.createTextNode(result.name);
@@ -266,6 +364,7 @@ function buildIWContent(place) {
      var photoUrl = place.photos[0].getUrl({maxWidth: 116, maxHeight: 116}); 
       document.getElementById('iw-photo-spot').src = photoUrl;
    } else {
-     document.getElementById('iw-photo-row').style.display = 'none';
+     document.getElementById('iw-photo-spot').src = "places_icons/no_img_big.png"; 
+     // document.getElementById('iw-photo-row').style.display = 'none';  
    }
 }

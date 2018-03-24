@@ -1,7 +1,7 @@
 ## Search For Your Next Holiday Destination,etc.
 
 ### Description:
-This is a one-page site that will enable users to search for their next holiday destinations, tourist attraction, accommodation, bars, and restaurants.
+This is a one-page site that will enable users to search for a city of interest, possibly a holiday destinations, tourist attraction, bars, and restaurants.
 
 ### Name:
 Travel Search:

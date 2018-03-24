@@ -20,7 +20,7 @@ table {
   height: 570px;
   overflow: auto;
   left: 0px;
-  top: 80px;
+  top: 110px;
   cursor: pointer;
   overflow-x: hidden;
   z-index: 1;
@@ -54,7 +54,8 @@ table {
   border: 2px solid #ccc;
   -webkit-transition: 0.5s;
   transition: 0.5s;
-  outline: none;  
+  outline: none;
+  margin-right:25px;
 }
 #autocomplete:focus {
   border: 3px solid #555;
@@ -265,7 +266,117 @@ div.foo{
     skew(0deg,22deg);
 }
 
-@media only screen and (max-width: 768px) {/*this is used to remove the listing table since it covers the screen on smaller views*/
+
+/* CONTAINERS */
+
+.container {max-width: 850px; width: 100%; margin: 0 auto;}
+.four { width: 32.26%; max-width: 32.26%;}
+
+
+/* COLUMNS */
+
+.col {
+  display: block;
+  float:left;
+  margin: 1% 0 1% 1.6%;
+}
+
+.col:first-of-type { margin-left: 0; }
+
+/* CLEARFIX */
+
+.cf:before,
+.cf:after {
+    content: " ";
+    display: table;
+}
+
+.cf:after {
+    clear: both;
+}
+
+.cf {
+    *zoom: 1;
+}
+
+/* FORM */
+
+.form .search-interest input{
+	display: none;
+}
+
+.form label{
+	position: relative;
+	color: #fff;
+	background-color: #aaa;
+	font-size: 16px;
+	text-align: center;
+	height: 40px;
+	line-height: 40px;
+	display: block;
+	cursor: pointer;
+	border: 2px solid transparent;
+	border-radius:4px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+
+.form .search-interest input:checked + label{
+	border: 2px solid #fff;
+	background-color: #2fcc71;
+}
+.form .search-interest input + label:hover{
+	border: 2px solid #fff;
+}
+.title-tagline{
+  color:#fff;
+  font-size: 16px;
+}
+ 
+fieldset { 
+    display: block;
+    width:80%;
+    margin-left: 2px;
+    margin-right: 15px;
+    padding-top: 0.45em;
+    padding-bottom: 20px;
+    padding-left: 0.75em;
+    padding-right: 0.75em;
+    border: 2px groove green;
+    color:white;
+}
+legend{
+  color:#fff;
+  font-size:16px;
+}
+.restaurantHotels{
+  padding: 8px;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 4px;
+	cursor: pointer;
+	border: 2px solid transparent;  
+	margin:2px;
+}
+.restaurantHotels:hover{
+	border: 2px solid #fff;  
+}
+
+
+.restaurantHotels-default{
+	background-color: #aaa;
+}
+.restaurantHotels-success{
+	background-color: #2fcc71;
+	border: 2px solid #fff;
+}
+
+@media only screen and (max-width: 1024px) {/*this is used to remove the listing table since it covers the screen on smaller views*/
 
   #listing {
 	  /*display: none;*/
@@ -276,7 +387,7 @@ div.foo{
       display: inline-block;
   }
   
-  .dropdown-content4 {
+  .dropdown-content4{
       display: none;
       position: absolute;
       background-color: #f9f9f9;
@@ -316,4 +427,12 @@ div.foo{
     perspective: 400;
     z-index: 1;
   }
+  fieldset { 
+      width:90%;
+  }  
+  .form label{
+  	font-size: 12px;
+  	height: 30px;
+  	line-height: 30px;  	
+  }  
 }

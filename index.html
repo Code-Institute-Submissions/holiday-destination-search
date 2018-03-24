@@ -6,73 +6,23 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <link rel="stylesheet" href="style.css" type="text/css" />
-    
-<style type="text/css">
-
-/* CONTAINERS */
-
-.container {max-width: 850px; width: 100%; margin: 0 auto;}
-.four { width: 32.26%; max-width: 32.26%;}
-
-
-/* COLUMNS */
-
-.col {
-  display: block;
-  float:left;
-  margin: 1% 0 1% 1.6%;
-}
-
-.col:first-of-type { margin-left: 0; }
-
-/* CLEARFIX */
-
-.cf:before,
-.cf:after {
-    content: " ";
-    display: table;
-}
-
-.cf:after {
-    clear: both;
-}
-
-.cf {
-    *zoom: 1;
-}
-
-/* FORM */
-
-.form .plan input, .form .payment-plan input, .form .payment-type input{
-	display: none;
-}
-
-.form label{
-	position: relative;
-	color: #fff;
-	background-color: #aaa;
-	font-size: 16px;
-	text-align: center;
-	height: 40px;
-	line-height: 40px;
-	display: block;
-	cursor: pointer;
-	border: 2px solid transparent;
-	border-radius:4px;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-}
-
-.form .plan input:checked + label, .form .payment-plan input:checked + label, .form .payment-type input:checked + label{
-	border: 2px solid #fff;
-	background-color: #2fcc71;
-}
-
-
- 
-</style>    
-    
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">    
   </head>
   <body>
     <header class="header-div">     
@@ -94,36 +44,35 @@
               <span class="letter" data-letter="c">c</span>
               <span class="letter" data-letter="h">h</span>                      
            </div>
+           <span class="title-tagline" id="titleTagline">Find Places Of Interest For Your Next Holiday</span>
        </div> 
        <div class="col-md-4 col-xs-12 text-right pad-div">
           <div class="input-group" id="locationField">
             <span class="input-group-addon bg-c">Enter a city</span>
-            <input id="autocomplete" type="text"/>
+            <input id="autocomplete" type="text" placeholder="Enter a location to begin:"/>
           </div>
  
       
          <div class="container">
       		<form class="form cf">
-      			<section class="plan cf">
-      				<input type="radio" onClick="multiple_search('natural_feature');" name="radio1" id="nature"  checked><label class="free-label four col" for="nature">Natural Places & Parks</label>
-      				<input type="radio" onClick="multiple_search('museum');" name="radio1" id="museum"><label class="basic-label four col" for="museum">Museum</label>
-      				<input type="radio" onClick="multiple_search('zoo');" name="radio1" id="zoo"><label  class="premium-label four col" for="zoo">Zoo & Aquarium</label>
+      			<section class="search-interest cf">
+      				<input type="radio" onClick="multiple_search('natural_feature');" name="radio1" id="nature"  checked><label class="four col" for="nature">Natural Places</label>
+      				<input type="radio" onClick="multiple_search('museum');" name="radio1" id="museum"><label class="four col" for="museum">Museums</label>
+      				<input type="radio" onClick="multiple_search('zoo');" name="radio1" id="zoo"><label  class="four col" for="zoo">Zoos</label>
       			</section>
       		</form>
       	 </div>
-	
-	
-          
        </div>        
-       <div class="col-md-4 col-xs-12 text-left pad-div">
-          <div class="dropdown">
-            <button class="dropbtn">Select Attraction Type</button>
-            <div class="dropdown-content">
-              <a href="#" onClick="changeFunc(this.id);" id="zoo">Zoos and Animal Parks</a>
-              <a href="#" onClick="changeFunc(this.id);" id="lodging">Hotels</a>
-              <a href="#" onClick="changeFunc(this.id);" id="restaurant">Bars/Restaurants</a>
-            </div>
-          </div>  
+       <div class="col-md-4 col-xs-12 text-center">
+         <fieldset>
+          <legend>Also Show:</legend>
+              <label class="checkbox-inline checkb search-interest cf" id="lodging">
+                <span id="hotel_span" class="restaurantHotels restaurantHotels-default"><input type="checkbox" style="display: none" id="include_hotels" onClick="addRemoveHotels(this.id);" >Hotels</span>  
+              </label>
+              <label class="checkbox-inline checkb" id="restaurant">
+                <span id="restaurant_span" class="restaurantHotels restaurantHotels-default"><input type="checkbox"  id="include_restaurants"  style="display: none" onClick="addRemoveRestaurants(this.id);">Restaurants</span>
+              </label>
+         </fieldset>              
         </div>
       </div>
     </header>     
@@ -163,8 +112,6 @@
             <td id="iw-url"></td>
           </tr>        
         </table>        
-        
-        
       </div>
     </div>
 
@@ -173,7 +120,7 @@
         async defer></script>
 
     <footer class="footer-div text-center">
-      Travel Search - ©  2018
+      Travel Search - 2018
     </footer>         
   </body>
 </html>

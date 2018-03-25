@@ -8,32 +8,29 @@ Travel Search:
 The name is styled to respond to a hover effect and display a green shadow.
 
 ### How It Is Used:
-When a user visits the site, the user is presented with an autocomplete input text field and a map. The map is centrally zoomed to lat: 47.45 and  lng: -30.27 which is somewhere at the North atlantic ocean. This way, the user is not presented any particular country.
+When a user visits the site, the user is presented with an autocomplete input text field for city search; styled radio buttons for refined search to show interests such as Natural Places, Museums, and Zoos; and a map. The map is centrally zoomed to lat: 47.45 and  lng: -30.27 which is somewhere at the North atlantic ocean. This way, the user is not presented any particular country.
 
-When the user types into the textfield, the autocomplete feature automatically loads suggestions cities/countries for the user to choose. 
+When the user types into the textfield, the autocomplete feature automatically loads suggestions of cities/countries for the user to choose. 
 
-On clicking a place,  google maps loads. With places of interest within the selected city/country loaded on a table which now appears on the left margin of the map for the user to find a particular interest. Also while the table populates with places of interests, markers are also dropping on the map. And on clicking any of the listed places, an info window opens presenting details about the clicked place..
-There is also a drop-down menu to enable the user refine his/her search results into Amusement parks, Aquarium, Art Gallery, Museums, Zoos, Hotels, Restaurants.
-It is important to note that the map always load with tiny icons of restaurants, hotels, hospitals, libraries, etc., within the map viewable area. These are clickable icons too that when clicked with display an info Window with more information about the clicked place.
+When the choice of city/country is made by the user by clicking on any of the autocomplete suggestions,  google maps loads to show Natural Places (this is the default) within the city/country chosen. Also, a table which now appears on the left margin of the map is loaded with places of interests found for the search. Also while the table populates with places of interest, icons drop on the map to the location corresponding to the result returned. And on clicking either the icons or the list on the search result table, an info window opens presenting information about the place clicked.
+The user also has a choice to display or remove Hotels and Restaurants from or onto the map by clicking the Hotel / Restaurant (checkboxes) to the right of the autocomplete text field.
+It is important to note that these icons are dropped within the map zoomed viewable area. There are clickable icons, that when clicked will display an info Window with more information and photo if any, about the clicked location.
 
 ### Users will be able:
-1. Search for a destination city
+1. Search for a destination by city/country by typing into an autocomplete textfield 
 2. Find tourist attractions within the search city/country
-3. Find accommodation
-4. Find bars and restaurants
+3. Find hotels, bars and restaurants
 
 ### Technologies used
 The site was developed using html / html 5, CSS / CSS 3, Bootstrap, Javascript, jQuery, Cloud9, and Google Maps Api, Google Places Api, git/github.
 
 #### Limitations
-There are presently lots of limitations. I have read lots of api pages but could not find solutions on how to drop the markers in different colours for different categories. For instance a green marker can be for Amusement parks, blue for museums, yellow for restaurants, etc. And even how to use numbers to label the markers instead of the aphabets.
-Another limitation is the search results found for places and displayed on the results table at the left margin of the map are not more than 26 listed places at a time.
-Also, I was not able to search for each categories separately and aggregate their results. Example, get the result for hotels and then from museums and display those only.
-Also, since icons of places such as restaurants, bars, hospitals, etc., are preloaded on the map when it displays, it is not possible to highlight or modify those icons. I do not have control over these icons.
+There are between 50 and 100 or even more different places of interest that can be searched for, but for simplicity, I decided to only add Natural Places, Museums, and Zoos. Using a listbox or a dropdown menu more places can be added.
+
 
 #### Support:
-There is much room to develop this page further. And you are welcome to contribute to solve some of the mentioned limitations above. These may be limitations perculiar only to this page, as I have seen a much more advanced use of the map api here https://www.tripadvisor.ie/Attractions-g186600-Activities-Cork_County_Cork.html#MAPVIEW
-which shows that the limitations presented above on the page are solvable.
+There is much room to develop this page further. And you are welcome to contribute to improve the page. Efforts have been made to make the page as responsive as possible.
+
 
 #### Source:
 1. https://developers.google.com/maps/documentation/javascript/places-autocomplete#map_controls

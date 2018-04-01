@@ -56,9 +56,9 @@
          <div class="container">
       		<form class="form cf">
       			<section class="search-interest cf">
-      				<input type="radio" onClick="multiple_search('natural_feature');" name="radio1" id="nature"  checked><label class="four col" for="nature">Natural Places</label>
-      				<input type="radio" onClick="multiple_search('museum');" name="radio1" id="museum"><label class="four col" for="museum">Museums</label>
-      				<input type="radio" onClick="multiple_search('zoo');" name="radio1" id="zoo"><label  class="four col" for="zoo">Zoos</label>
+      				<input type="radio" name="radio1" id="nature"  checked><label class="four col" for="nature">Natural Places</label>
+      				<input type="radio" name="radio1" id="museum"><label class="four col" for="museum">Museums</label>
+      				<input type="radio" name="radio1" id="zoo"><label  class="four col" for="zoo">Zoos</label>
       			</section>
       		</form>
       	 </div>
@@ -67,10 +67,10 @@
          <fieldset>
           <legend>Also Show:</legend>
               <label class="checkbox-inline checkb search-interest cf" id="lodging">
-                <span id="hotel_span" class="restaurantHotels restaurantHotels-default"><input type="checkbox" style="display: none" id="include_hotels" onClick="addRemoveHotels(this.id);" >Hotels</span>  
+                <span id="hotel_span" class="restaurantHotels restaurantHotels-default"><input type="checkbox" style="display: none" id="include_hotels">Hotels</span>  
               </label>
               <label class="checkbox-inline checkb" id="restaurant">
-                <span id="restaurant_span" class="restaurantHotels restaurantHotels-default"><input type="checkbox"  id="include_restaurants"  style="display: none" onClick="addRemoveRestaurants(this.id);">Restaurants</span>
+                <span id="restaurant_span" class="restaurantHotels restaurantHotels-default"><input type="checkbox"  id="include_restaurants"  style="display: none">Restaurants</span>
               </label>
          </fieldset>              
         </div>
@@ -86,7 +86,7 @@
   		</div>
   	  </div>
   	</div> 
-  	
+
   	<div id="map"></div>
 
     <div style="display: none">

@@ -1,8 +1,10 @@
 /* map setting */
 @import url(https://fonts.googleapis.com/css?family=Lato:900);
 #map {
+  position:relative;
   height: 100%;
   width: 100%;
+  margin: 0px;
 }
 /* page fill the window. */
 html, body {

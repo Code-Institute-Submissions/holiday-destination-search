@@ -1,37 +1,64 @@
-
 // This example uses the autocomplete feature of the Google Places API.
 // It allows the user to find places of interest in a given place, within a given
 // city or region. It then displays markers for all the places of interests returned,
 // A user can decide to also display hotels and restaurants by clicking the relevant buttons. (checkboxes.)
 var map, places, infoWindow;
 var markers = [];
-var hotels_markers = [];
-var restaurants_markers = [];
+var hotelMarkers = [];
+var restaurantMarkers = [];
 var autocomplete;
 var countryRestrict = {'country': 'us'};
 var hostnameRegexp = new RegExp('^https?://.+?/');
-var all_places_img = "places_icons/places.png";
-var restuarant_img = "places_icons/restaurant.png";
-var hotel_img = "places_icons/hotels.png";
-var image = all_places_img;
+var placesOfInterestIcons = "places_icons/places.png";
+var restaurantIcons = "places_icons/restaurant.png";
+var hotelIcons = "places_icons/hotels.png";
+var image = placesOfInterestIcons;
 
 
+//addEventListeners on click events
+//this is the eventListener for when the Natural Places is clicked to refine the search result.
+document.getElementById("nature").addEventListener("click", function(){
+    searchPlacesOfInterests('natural_feature');
+});
 
-//This function is to refine the search based on which radio is clicked.
-function multiple_search(e){
-    var places_names = "Natural Places Of Interest";
+
+//this is the eventListener for when the museum is clicked to refine the search result.
+document.getElementById("museum").addEventListener("click", function(){
+    searchPlacesOfInterests('museum');
+});
+
+
+//this is the eventListener for when the zoo is clicked to refine the search result.
+document.getElementById("zoo").addEventListener("click", function(){
+    searchPlacesOfInterests('zoo');
+});
+
+//addEventListeners hotel and restuarants
+//this is the eventListener when the checkbox to add hotels is click.
+document.getElementById("include_hotels").addEventListener("click", function(){
+    addRemoveHotels();
+});
+
+//this is the eventListener when the checkbox to add restaurants is click.
+document.getElementById("include_restaurants").addEventListener("click", function(){
+    addRemoveRestaurants();
+});
+
+//This function is to refine the search based on which radio is clicked between Natural Places, Museums, and Zoos.
+function searchPlacesOfInterests(searchQuery){
+    var placesNames = "Natural Places Of Interest";
     clearResults();
     clearMarkers();     
-    if(e != ""){
-        search(e);  
-        image = all_places_img;
+    if(searchQuery != ""){
+        search(searchQuery);  
+        image = placesOfInterestIcons;
         if(document.getElementById('autocomplete').value != ""){
-            if(e == "museum"){
-               places_names = "Museums"; 
-            }else if(e == "zoo"){
-                places_names = "Zoos"; 
+            if(searchQuery == "museum"){
+               placesNames = "Museums"; 
+            }else if(searchQuery == "zoo"){
+                placesNames = "Zoos"; 
             }
-            document.getElementById('titleTagline').innerHTML =   "Some " + places_names + " In " +  document.getElementById('autocomplete').value;
+            document.getElementById('titleTagline').innerHTML =   "Some " + placesNames + " In " +  document.getElementById('autocomplete').value;
         }    
     }else{
         document.getElementById('autocomplete').placeholder =  "Please enter a city to begin";   
@@ -39,7 +66,7 @@ function multiple_search(e){
 }
 
 //this function is used to add or remove hotels markers
-function addRemoveHotels(e){
+function addRemoveHotels(){
    clearHotelMarkers();  
    document.getElementById("hotel_span").className = "restaurantHotels restaurantHotels-default";
    if(document.getElementById("include_hotels").checked){
@@ -54,15 +81,15 @@ function addRemoveHotels(e){
     
              for (var i = 0; i < results.length; i++) {
                 // Use marker animation to drop the icons incrementally on the map.
-                hotels_markers[i] = new google.maps.Marker({
+                hotelMarkers[i] = new google.maps.Marker({
                   position: results[i].geometry.location,
                   animation: google.maps.Animation.DROP,
-                  icon: hotel_img //markerIcon
+                  icon: hotelIcons //markerIcon
                 });
                // If the user clicks a place marker, show the details of that place
                // in an info window.
-               hotels_markers[i].placeResult = results[i];
-               google.maps.event.addListener(hotels_markers[i], 'click', showInfoWindow);
+               hotelMarkers[i].placeResult = results[i];
+               google.maps.event.addListener(hotelMarkers[i], 'click', showInfoWindow);
                setTimeout(dropHotelMarker(i), i * 100);
 
              }
@@ -72,7 +99,7 @@ function addRemoveHotels(e){
 }  
 
 //this function is used to add or  remove restaurants markers
-function addRemoveRestaurants(e){
+function addRemoveRestaurants(){
    clearRestaurantMarkers();  
    document.getElementById("restaurant_span").className = "restaurantHotels restaurantHotels-default";
    if(document.getElementById("include_restaurants").checked){
@@ -87,15 +114,15 @@ function addRemoveRestaurants(e){
     
              for (var i = 0; i < results.length; i++) {
                 // Use marker animation to drop the icons incrementally on the map.
-                restaurants_markers[i] = new google.maps.Marker({
+                restaurantMarkers[i] = new google.maps.Marker({
                   position: results[i].geometry.location,
                   animation: google.maps.Animation.DROP,
-                  icon: restuarant_img //markerIcon
+                  icon: restaurantIcons //markerIcon
                 });
                // If the user clicks a place marker, show the details of that place
                // in an info window.
-               restaurants_markers[i].placeResult = results[i];
-               google.maps.event.addListener(restaurants_markers[i], 'click', showInfoWindow);
+               restaurantMarkers[i].placeResult = results[i];
+               google.maps.event.addListener(restaurantMarkers[i], 'click', showInfoWindow);
                setTimeout(dropRestaurantMarker(i), i * 100);
 
              }
@@ -112,34 +139,40 @@ var countries = {
 };
 
 function initMap() {
-  map = new google.maps.Map(document.getElementById('map'), {
-    zoom: countries['atl'].zoom,
-    center: countries['atl'].center,
-    mapTypeControl: false,
-    panControl: false,
-    zoomControl: false,
-    streetViewControl: true
-  });
 
-
-
-  infoWindow = new google.maps.InfoWindow({
-    content: document.getElementById('info-content')
-  });
-
-  // Create the autocomplete object and associate it with the UI input control.
-  // Restrict the search to the default country, and to place type "cities".
-  autocomplete = new google.maps.places.Autocomplete(
-    /** @type {!HTMLInputElement} */ (
-    document.getElementById('autocomplete')), {
-  		types: ['geocode']
-    });
-  	places = new google.maps.places.PlacesService(map);
-
-    autocomplete.addListener('place_changed', onPlaceChanged);
-    // Add a DOM event listener to react when the user selects a country.
-    document.getElementById('country').addEventListener(
-       'change', setAutocompleteCountry);
+    try {
+      map = new google.maps.Map(document.getElementById('map'), {
+        zoom: countries['atl'].zoom,
+        center: countries['atl'].center,
+        mapTypeControl: false,
+        panControl: false,
+        zoomControl: false,
+        streetViewControl: true
+      });
+    
+    
+    
+      infoWindow = new google.maps.InfoWindow({
+        content: document.getElementById('info-content')
+      });
+    
+      // Create the autocomplete object and associate it with the UI input control.
+      // Restrict the search to the default country, and to place type "cities".
+      autocomplete = new google.maps.places.Autocomplete(
+        /** @type {!HTMLInputElement} */ (
+        document.getElementById('autocomplete')), {
+      		types: ['geocode']
+        });
+      	places = new google.maps.places.PlacesService(map);
+    
+        autocomplete.addListener('place_changed', onPlaceChanged);
+        // Add a DOM event listener to react when the user selects a country.
+        document.getElementById('country').addEventListener(
+           'change', setAutocompleteCountry);
+    }
+    catch(err) {
+        return null;//error not processed.
+    }
 }
 
 // When the user selects a city, get the place details for the city and
@@ -205,21 +238,21 @@ function clearMarkers() {
 }
 //this function clears the hotel markers specifically when there are any dropped on the map.
 function clearHotelMarkers() {
-   for (var i = 0; i < hotels_markers.length; i++) {
-      if (hotels_markers[i]) {
-         hotels_markers[i].setMap(null);
+   for (var i = 0; i < hotelMarkers.length; i++) {
+      if (hotelMarkers[i]) {
+         hotelMarkers[i].setMap(null);
        }
    }
-   hotels_markers = [];
+   hotelMarkers = [];
 }
 //this function clears the restaurant markers specifically when there are any dropped on the map.
 function clearRestaurantMarkers() {
-   for (var i = 0; i < restaurants_markers.length; i++) {
-      if (restaurants_markers[i]) {
-         restaurants_markers[i].setMap(null);
+   for (var i = 0; i < restaurantMarkers.length; i++) {
+      if (restaurantMarkers[i]) {
+         restaurantMarkers[i].setMap(null);
        }
    }
-   restaurants_markers = [];
+   restaurantMarkers = [];
 }
 // Set the country restriction based on user input.
 // Also center and zoom the map on the given country.
@@ -248,13 +281,13 @@ function dropMarker(i) {
 //this function drops in hotels markers
 function dropHotelMarker(i) {
    return function() {
-      hotels_markers[i].setMap(map);
+      hotelMarkers[i].setMap(map);
    };
 }
 //this function drops in restaurants markers
 function dropRestaurantMarker(i) {
    return function() {
-      restaurants_markers[i].setMap(map);
+      restaurantMarkers[i].setMap(map);
    };
 }
 //this function adds results when search is complete
@@ -315,7 +348,7 @@ function buildIWContent(place) {
   document.getElementById('iw-icon').innerHTML = '<img class="placeIcon" ' +
       'src="' + place.icon + '"/>';
   document.getElementById('iw-url').innerHTML = '<b><a href="' + place.url +
-      '">' + place.name + '</a></b>';
+      '" target="_blank">' + place.name + '</a></b>';
   document.getElementById('iw-address').textContent = place.vicinity;
 
   if (place.formatted_phone_number) {

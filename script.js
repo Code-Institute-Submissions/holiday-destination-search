@@ -7,12 +7,7 @@ var markers = [];
 var hotelMarkers = [];
 var restaurantMarkers = [];
 var autocomplete;
-var countryRestrict = {'country': 'us'};
-var hostnameRegexp = new RegExp('^https?://.+?/');
-var placesOfInterestIcons = "places_icons/places.png";
-var restaurantIcons = "places_icons/restaurant.png";
-var hotelIcons = "places_icons/hotels.png";
-var image = placesOfInterestIcons;
+var image = "places_icons/places.png"; 
 
 
 //addEventListeners on click events
@@ -84,7 +79,7 @@ function addRemoveHotels(){
                 hotelMarkers[i] = new google.maps.Marker({
                   position: results[i].geometry.location,
                   animation: google.maps.Animation.DROP,
-                  icon: hotelIcons //markerIcon
+                  icon: "places_icons/hotels.png" //hotel Icons
                 });
                // If the user clicks a place marker, show the details of that place
                // in an info window.
@@ -117,7 +112,7 @@ function addRemoveRestaurants(){
                 restaurantMarkers[i] = new google.maps.Marker({
                   position: results[i].geometry.location,
                   animation: google.maps.Animation.DROP,
-                  icon: restaurantIcons //markerIcon
+                  icon: "places_icons/restaurant.png" //restaurant Icons
                 });
                // If the user clicks a place marker, show the details of that place
                // in an info window.
@@ -380,6 +375,7 @@ function buildIWContent(place) {
    // The regexp isolates the first part of the URL (domain plus subdomain)
    // to give a short URL for displaying in the info window.
    if (place.website) {
+     var hostnameRegexp = new RegExp('^https?://.+?/');
      var fullUrl = place.website;
      var website = hostnameRegexp.exec(place.website);
      if (website === null) {
